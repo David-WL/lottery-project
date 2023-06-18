@@ -19,7 +19,8 @@
   "homepage": "https://github.com/David-WL/lottery-project#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "hardhat": "^2.15.0"
+    "hardhat": "^2.15.0",
+    "hardhat-gas-reporter": "^1.0.9"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.2",
