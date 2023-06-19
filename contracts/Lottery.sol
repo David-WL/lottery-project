@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MIT
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+
 pragma solidity ^0.8.9;
 
-contract Lottery {
+contract Lottery /*is Ownable*/{
     address payable owner; 
     uint minWager = 1; 
     uint totalWager = 0; 
@@ -58,11 +61,11 @@ contract Lottery {
         totalWager += msg.value;
 
         if (numberOfWagers >= MAX_NUMBER_OF_WAGERS) {
-            announceWinners(); 
+            _announceWinners(); 
             
             //---start a new game---
             // remove all the player addresses mappings
-            removeAllPlayersFromMapping();
+            _removeAllPlayersFromMapping();
             
             // remove all the addresses in the array
             delete playerAddresses;
@@ -78,13 +81,13 @@ contract Lottery {
         emit Status(numberOfWagers, MAX_NUMBER_OF_WAGERS);
     }
 
-    function removeAllPlayersFromMapping() private {
+    function _removeAllPlayersFromMapping() private {
         for (uint i=0; i < playerAddresses.length; i++) {
             delete playerAddressesMapping[playerAddresses[i]];
         }
     }
 
-    function announceWinners() private {
+    function _announceWinners() private {
         winningNumber = 
           uint(keccak256(abi.encodePacked(block.timestamp))) % 
           MAX_WINNING_NUMBER + 1;
@@ -137,11 +140,11 @@ contract Lottery {
         return winningNumber;
     }
 
-    function kill() public {
-        if (msg.sender == owner) {
-            selfdestruct(owner);
-        }        
-    }
+    //function kill() public {
+    //    if (msg.sender == owner) {
+    //        selfdestruct(owner);
+    //    }        
+    //}
     
     function getStatus() view public returns (uint,uint) {
         return (numberOfWagers, MAX_NUMBER_OF_WAGERS);
