@@ -3,6 +3,7 @@ require("hardhat-gas-reporter");
 require("dotenv").config();
 require("./tasks/block-number");
 require("./tasks/accounts");
+require("hardhat-gas-reporter");
 
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
@@ -10,6 +11,12 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.18",
+  gasReporter: {
+    enabled: false,
+    outputFile: "gas-report.txt",
+    noColors: true,
+    //currency: "USD",
+  },
   defaultnetwork: "hardhat",
   networks: {
     hardhat: {},
