@@ -1,10 +1,28 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("hardhat-gas-reporter")
+require("hardhat-gas-reporter");
+require("dotenv").config();
+require("./tasks/block-number");
+require("./tasks/accounts");
+
+const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.18",
-  defaultnetwork:"hardhat",
+  defaultnetwork: "hardhat",
+  networks: {
+    hardhat: {},
+    sepolia: {
+      url: SEPOLIA_RPC_URL,
+      accounts: [PRIVATE_KEY],
+      chainId: 11155111,
+    },
+    localhost: {
+      url: "http://localhost:8545",
+      chainId: 31337,
+    },
+  },
   /*gasReporter: {
     enabled: true,
     currency: "USD",
@@ -13,11 +31,3 @@ module.exports = {
     coinmarketcap: COINMARKETCAP_API_KEY,
   },*/
 };
-
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
-});
