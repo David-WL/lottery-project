@@ -179,4 +179,12 @@ pragma solidity ^0.8.9;
         );
         payable(owner).transfer(address(this).balance);
     }
+
+    function getOwner() public view returns (address) {
+        require(
+            msg.sender == owner,
+            "Only the owner of contract can cash out!"
+        );
+        return owner;
+    }
 }

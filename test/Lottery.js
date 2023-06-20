@@ -25,5 +25,23 @@ describe("Lottery", function () {
 
       expect(await lottery.getWinningNumber()).to.equal(0);
     });
+
+    it("Should set the right owner", async function () {
+      const { lottery, owner } = await loadFixture(deployLotteryFixture);
+
+      expect(await lottery.getOwner()).to.equal(owner.address);
+    });
+
+    it("Check the default GameStatus", async function () {
+      const { lottery } = await loadFixture(deployLotteryFixture);
+
+      const [numberOfPlayers, MAX_NUMBER_OF_PLAYERS] =
+        await lottery.getGameStatus();
+
+      //console.log(numberOfPlayers);
+      //expect(await lottery.getGameStatus()).to.equal([0n, 3n]);
+      expect(numberOfPlayers).to.equal(0n);
+      expect(MAX_NUMBER_OF_PLAYERS).to.equal(3n);
+    });
   });
 });
